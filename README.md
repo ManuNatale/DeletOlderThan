@@ -16,6 +16,7 @@ Windows and Linux compatible
   - --test "You can set it to True too only check the folders and not delet them.
             It is set to True by default to reduce the risk of error. It need to be 
             manually set to False.
+ - --help "Display help"
                                                              
 # Example:
 
