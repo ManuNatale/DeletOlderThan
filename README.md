@@ -19,8 +19,8 @@ Windows and Linux compatible
                                                              
 # Example:
 
-  - ~$ python DeletOlderThan.py --path C:\Users\pictures\ --older 5 --test True  #Checking picture older than 5 days with test enable
+    ~$ python DeletOlderThan.py --path C:\Users\pictures\ --older 5 --test True  #Checking picture older than 5 days with test enable
     
         #Output : Checking files older than 5.0 days in folder : C:\Users\pictures\
     
-  - ~$ python DeletOlderThan.py --path C:\Users\pictures\ --older 5 --test False  #Deleting all files in pictures older than 5 days
+    ~$ python DeletOlderThan.py --path C:\Users\pictures\ --older 5 --test False  #Deleting all files in pictures older than 5 days
