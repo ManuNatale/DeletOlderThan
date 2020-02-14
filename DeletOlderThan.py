@@ -2,6 +2,7 @@ import os
 import time
 import stat
 import shutil
+import argparse
 from pathlib import Path
 from datetime import datetime
 
@@ -14,14 +15,15 @@ def oldDateCheck(path, folder, testTrueFalse, olderThan):
     #print(str(fileStatsObj))
     creationTime = time.ctime ( fileStatsObj [ stat.ST_CTIME ] )
     creationTimeSec =  ( fileStatsObj [ stat.ST_CTIME ] )
-    print(creationTime + ', sec : ' + str(creationTimeSec))
+    print('Modification date :' + creationTime + ', sec Unix : ' + str(creationTimeSec))
     diff = now - creationTimeSec
-    print('diff : ' + str(diff))
+    print('Time difference beetweem now and modification date : ' + str(round(diff)))
     if(diff > olderThan): 
         if(testTrueFalse == False):
             print('Old folder finded. Removing ==> {}\n'.format(folder))
             try:
-                shutil.rmtree(path, ignore_errors=True)
+                pass
+                #shutil.rmtree(path, ignore_errors=True)
             except:
                 print('[{}] : Error removing folder : {} !!!'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), folder))
             return True
@@ -33,10 +35,11 @@ def oldDateCheck(path, folder, testTrueFalse, olderThan):
     
     
 def FolderCleaning(path, olderThan, testTrueFalse):
-    print('[{}] : Cleaning session started ! Checking folders older than : {} day...\n\n'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), (olderThan/60/60)/24))
+    print('\n[{}] : Cleaning session started ! Checking folders older than : {} day...'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), round((olderThan/60/60)/24, 2)))
     time.sleep(3)
     if(testTrueFalse == True):
-        print('[{}] : Test session any folders are gonna be removed'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        print('\n[{}] : Test session any folders are going to be removed'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        time.sleep(5)
     delet_count = 0
     folders = os.listdir(path=path)
     Nb_Of_folders = len(folders)
@@ -44,19 +47,53 @@ def FolderCleaning(path, olderThan, testTrueFalse):
     #print(Nb_Of_folders)
 
     for i in folders:
-        time.sleep(0.2)
+        time.sleep(0.01)
         print('\n\nChecking floder : ' + i)
         folder_path = ('{}/{}'.format(path, i))
         print('Path = {}'.format(folder_path))
         if(oldDateCheck(folder_path, i, testTrueFalse, olderThan) == True):
             delet_count += 1
     print('\n[{}] : Number of folders find : {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), Nb_Of_folders))
-    print('\n[{}] : Number of folders older than {} days : {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), (olderThan/60/60)/24, delet_count))
+    print('\n[{}] : Number of folders older than {} days : {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), round((olderThan/60/60)/24, 2), delet_count))
     if(testTrueFalse == True):
         print('\n[{}] : ||Test = True|| number of folders to delet : {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), delet_count))
     else:
         print('\n[{}] : Number of deleted folders : {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), delet_count))
     
-path = Path("./images/")
-olderThan = 864000
-FolderCleaning(path, olderThan, True) # args = path, remove_folders_older_than (INT, in seconds), Test (True or False)
+
+parser = argparse.ArgumentParser(description='Delet files older than explanation')
+parser.add_argument('-p', '--path', type=str, help='Path to files')
+parser.add_argument('-o', '--older', type=float, default=28, help='Older than, in days, for houre use 0.1, 0.2 . 0.3, ... (default: 1 month(2419200s)')
+parser.add_argument('-t', '--test', type=str, default=True, help='boolean (default: True) (ex: -t 1/True or -t 0/False')  
+parsed_args = parser.parse_args()
+
+#############################################################
+# Checking if argumens are correct
+argsCheckOk = False
+
+if parsed_args.path is not None:
+    if type(parsed_args.older) is float or int:
+        if (parsed_args.older > 0):
+            if(parsed_args.test == '1', 'True', 'true', '0', 'False', 'false'):
+                argsCheckOk = True
+            else:
+                print('Test argument error. Accepted arguments 1, True, true, 0, False, false')
+        else:
+            print('Older value is too small')
+    else:
+        print('Error, older argument must be an int or float')
+else:
+    print('No path, please enter a path. For help : -h, --help')
+
+#############################################################
+
+if(argsCheckOk == True):
+    daysToSec = ((parsed_args.older*24)*60)*60
+    #print('\n' + parsed_args.path + '\n' + str(daysToSec) + '\n' + str(parsed_args.test) + '\n')
+    if(parsed_args.older >= 1):
+        print('\n[{}] : Checking files older than {} days in folder : {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), parsed_args.older, parsed_args.path))
+    else:
+        print('\n[{}] : Checking files older than {} days ({} sec) in folder : {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), parsed_args.older, round(daysToSec), parsed_args.path))
+    time.sleep(5)
+    FolderCleaning(parsed_args.path, daysToSec, parsed_args.test) # args = path, remove_folders_older_than (INT, in seconds), Test (True or False)
+
