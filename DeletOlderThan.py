@@ -3,7 +3,6 @@ import time
 import stat
 import shutil
 import argparse
-from pathlib import Path
 from datetime import datetime
 
 def oldDateCheck(path, folder, testTrueFalse, olderThan):
