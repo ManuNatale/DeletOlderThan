@@ -68,14 +68,19 @@ parser.add_argument('-t', '--test', type=str, default=True, help='boolean (defau
 parsed_args = parser.parse_args()
 
 #############################################################
-# Checking if argumens are correct
+# Checking if arguments are correct
+argTest = True
 argsCheckOk = False
 
 if parsed_args.path is not None:
     if type(parsed_args.older) is float or int:
         if (parsed_args.older > 0):
-            if(parsed_args.test == '1', 'True', 'true', '0', 'False', 'false'):
+            if(parsed_args.test == '1' or parsed_args.test == 'True' or parsed_args.test == 'true' or parsed_args.test == True):
+                argTest = True
                 argsCheckOk = True
+            elif(parsed_args.test == '0' or parsed_args.test == 'False' or parsed_args.test == 'false'):
+                argTest = False
+                argsCheckOk = True           
             else:
                 print('Test argument error. Accepted arguments 1, True, true, 0, False, false')
         else:
@@ -95,5 +100,5 @@ if(argsCheckOk == True):
     else:
         print('\n[{}] : Checking files older than {} days ({} sec) in folder : {}'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), parsed_args.older, round(daysToSec), parsed_args.path))
     time.sleep(5)
-    FolderCleaning(parsed_args.path, daysToSec, parsed_args.test) # args = path, remove_folders_older_than (INT, in seconds), Test (True or False)
+    FolderCleaning(parsed_args.path, daysToSec, argTest) # args = path, remove_folders_older_than (INT, in seconds), Test (True or False)
 
