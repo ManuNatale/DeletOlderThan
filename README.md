@@ -3,7 +3,7 @@ Python script for deleting folders or files older than .... in a given path
 
 Windows and Linux compatible
 
-# Utilisation:
+# Utilisation for the console mode:
 
   In command prompt type:
   
