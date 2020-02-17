@@ -22,7 +22,7 @@ def oldDateCheck(path, folder, testTrueFalse, olderThan):
             print('Old folder finded. Removing ==> {}\n'.format(folder))
             try:
                 pass
-                #shutil.rmtree(path, ignore_errors=True)
+                shutil.rmtree(path, ignore_errors=True)
             except:
                 print('[{}] : Error removing folder : {} !!!'.format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), folder))
             return True
