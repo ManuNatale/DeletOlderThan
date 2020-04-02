@@ -51,7 +51,7 @@ def FolderCleaning(path, daysToSec, testTrueFalse): # Use DeletOlderThanImport.F
 
     for i in folders:
         time.sleep(0.01)
-        print('\n\nChecking floder : ' + i)
+        print('\n\nChecking folder : ' + i)
         folder_path = ('{}/{}'.format(path, i))
         print('Path = {}'.format(folder_path))
         if(oldDateCheck(folder_path, i, testTrueFalse, olderThan) == True):
