@@ -13,7 +13,7 @@ Windows and Linux compatible
  Arguments:
   - --path "Enter the destination path to delet files"
   - --older "Time older than ... in days. For same day, use coma (ex : 0.2 day)"
-  - --test "You can set it to True too only check the folders and not delet them.
+  - --test "You can set it to True to only check the folders and not delet them.
             It is set to True by default to reduce the risk of error. It need to be 
             manually set to False.
  - --help "Display help"
